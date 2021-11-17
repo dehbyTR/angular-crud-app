@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PaisService } from "src/app/services/pais.service";
+import { UniversidadesService } from "src/app/services/universidades.service";
 
 @Component({
   selector: 'app-painel',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PainelComponent implements OnInit {
 
-  constructor() { }
+  public nuPaises: number = 0;
+  public nuUniversidades: number = 0;
+
+  constructor(
+    private _paisService: PaisService,
+    private _universidadesService: UniversidadesService
+  ) { }
 
   ngOnInit(): void {
+    this._paisService.listar().subscribe(resp => {
+      this.nuPaises = Object.values(resp).length;
+    }, err => {
+      console.error('Ocorreu um erro');
+    });
   }
 
 }
